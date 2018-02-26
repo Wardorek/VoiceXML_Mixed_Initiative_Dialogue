@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<vxml version="2.1" xmlns:voxeo="http://community.voxeo.com/xmlns/vxml">
+
+
+<form id="start">
+  <block>
+   <prompt>
+    Welcome in the system of cancellation of doctor's appointments.
+   </prompt>
+
+  <goto next="#main" />
+  
+  </block>
+</form>
+
+<!-- Main Form -->
+
+<form id="main">
+
+ 
+  <!-- Load the grammar file -->
+
+  <grammar src="gramatyka.xml" type="application/grammar-xml" root="doctor" />
+
+ 
+
+  <!-- Prompt the user for info -->
+
+  <initial name="init_doctor">
+
+   <prompt>
+
+    Enter the details of the visit you want to cancel.
+
+   </prompt>
+     
+	<!-- User did not say what we needed -->
+	<!-- after the first failure -->
+
+	<nomatch count="1">
+				<prompt>Okay, I'll ask you for information one piece at a time.</prompt>
+
+   <!-- set the initial elements name to true -->
+   <!-- this will make the app prompt the user for each piece of information -->
+
+  <assign name="init_doctor" expr="true" />
+
+	<!-- start over -->
+
+	<reprompt/>
+	</nomatch>
+
+  </initial>
+
+ 
+  <!-- Ask the user for the specialization name -->
+
+  <field name="specialization">
+
+   <prompt>Please give your doctor specialization</prompt>
+
+  </field>
+
+ 
+
+  <!-- ask the user where the name of the doctor -->
+
+  <field name="namedoc">
+
+   <prompt>Please give the name of the doctor</prompt>
+
+  </field>
+
+ 
+  <!-- ask the user where the surname of the doctor -->
+
+  <field name="surnamedoc">
+
+   <prompt>Please give the surname of the doctor</prompt>
+
+  </field>
+
+  <!-- All of the fields were matched -->
+
+  <filled mode="all">
+  
+<!-- put the specialization into the mix -->
+
+	<prompt>You have provided the following data
+	
+		<value expr="specialization" />
+		<value expr="namedoc"/>
+		<value expr="surnamedoc"/>
+  
+		<break time="1000ms" />
+			Goodbye
+	</prompt>
+   <exit />
+
+  </filled>
+
+</form>
+
+</vxml>

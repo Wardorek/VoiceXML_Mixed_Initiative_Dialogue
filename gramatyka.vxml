@@ -1,0 +1,197 @@
+<?xml version= "1.0" encoding="UTF-8" ?>
+
+<grammar xml:lang="en-US">
+
+ 
+<rule id="doctor" scope="public">
+  <one-of>
+   <item>
+
+    <!-- both grammars were matched mixed-init style -->
+
+    <item><ruleref uri="#special" /><tag>out.specialization=rules.special.specialization;</tag></item>
+
+    <item><ruleref uri="#named" /><tag>out.namedoc=rules.named.namedoc;</tag></item>
+	
+	<item><ruleref uri="#surnamed" /><tag>out.surnamedoc=rules.surnamed.surnamedoc;</tag></item>
+
+   </item>
+
+		<item>
+			<!-- matched special only -->
+			<ruleref uri="#special" />
+		</item>
+		<item>
+			<!-- matched namedoc only -->
+			<ruleref uri="#named" />
+		</item>
+		<item>
+			<!-- matched surnamed only -->
+			<ruleref uri="#surnamed" />
+		</item>
+
+ </one-of>
+</rule>
+
+
+<!-- specialization grammar -->
+
+<!-- we can use this by itself or mixed-init style -->
+
+<rule id="special" scope="public">
+
+  <one-of>
+   <item>
+
+    <!-- optional utterance prefixes go here -->
+    <!-- Load the specialization filler subgrammar -->
+
+    <item repeat="0-1">
+
+     <!-- a filler match can be repeated once if desired -->
+     <ruleref uri="#QUEST_special" />
+
+    </item>
+
+    <!-- choose one of these specialization -->
+    <!-- return the info we need in out.specialization -->
+
+    <one-of>
+
+     <item> internist <tag> out.specialization = "Internist"; </tag></item>
+
+     <item> dentist  <tag> out.specialization = "Dentist";  </tag></item>
+
+     <item> oncologist <tag> out.specialization = "Oncologist"; </tag></item>
+
+     <item> neurologist <tag> out.specialization = "Neurologist"; </tag></item>
+
+    </one-of>
+
+   </item>
+
+  </one-of>
+
+</rule>
+
+<!-- the name doctor grammar -->
+
+<!-- same as named grammar, just different info to match -->
+
+<rule id="named" scope="public">
+
+  <one-of>
+   <item>
+
+    <!-- optional utterance prefixes go here -->
+
+    <item repeat="0-1">
+
+     <ruleref uri="#QUEST_named" />
+
+    </item>
+    <one-of>
+
+     <item> mark   <tag> out.namedoc = "Mark";   </tag></item>
+     <item> eric <tag> out.namedoc = "Eric"; </tag></item>
+     <item> anna    <tag> out.namedoc = "Anna";    </tag></item>
+     <item> wiki   <tag> out.namedoc = "Wiki";   </tag></item>
+
+    </one-of>
+	
+   </item>
+  </one-of>
+
+</rule>
+ 
+ <!-- same as surnamed grammar, just different info to match -->
+
+<rule id="surnamed scope="public">
+
+  <one-of>
+   <item>
+
+    <!-- optional utterance prefixes go here -->
+
+    <item repeat="0-1">
+
+     <ruleref uri="#QUEST_surnamed" />
+
+    </item>
+    <one-of>
+
+     <item> nowik   <tag> out.namedoc = "Nowik";   </tag></item>
+     <item> smith <tag> out.namedoc = "Smith"; </tag></item>
+     <item> kowal    <tag> out.namedoc = "Kowal";    </tag></item>
+     <item> tymon   <tag> out.namedoc = "Tymon";   </tag></item>
+
+    </one-of>
+	
+   </item>
+  </one-of>
+
+</rule>
+
+<!-- filler grammar to prefix 'special' utterance' -->
+
+<rule id="QUEST_special" scope="public">
+
+  <one-of>
+
+   <item> i am scheduled to visit </item>
+
+   <item> visit </item>
+
+   <item> specialist </item>
+
+   <item> i have an appointment with an </item>
+
+  </one-of>
+
+</rule>
+
+ 
+
+<!-- filler grammar to prefix 'named' utterance' -->
+
+<rule id="QUEST_named" scope="public">
+
+  <one-of>
+
+   <item> his surname is </item>
+
+   <item> name </item>
+
+   <item> i think her name is </item>
+
+   <item> i think his name was </item>
+
+   <item> i think </item>
+
+   <item> i think it's </item>
+
+  </one-of>
+
+</rule>
+
+<rule id="QUEST_surnamed" scope="public">
+
+  <one-of>
+
+   <item> his surname is </item>
+
+   <item> surname </item>
+
+   <item> i think her surname is </item>
+
+   <item> i think his surname was </item>
+
+   <item> i think </item>
+
+   <item> i think it's </item>
+
+  </one-of>
+
+</rule>
+
+</grammar>
